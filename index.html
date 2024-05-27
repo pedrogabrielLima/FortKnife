@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FortKnife</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+        }
+        nav a {
+            color: white;
+            padding: 1rem;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .container {
+            padding: 1rem;
+        }
+        .shining-text {
+            background: linear-gradient(90deg, #ff8c00, #e52e71, #9a30e1, #ff8c00);
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: shine 2s linear infinite;
+            display: inline-block;
+        }
+        @keyframes shine {
+            0% {
+                background-position: 0%;
+            }
+            100% {
+                background-position: 200%;
+            }
+        }
+        .participant-list {
+            margin: 2rem 0;
+        }
+        .participant {
+            cursor: pointer;
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .participant-description {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #ffd700;
+            border-radius: 5px;
+        }
+        .bet-input {
+            display: none;
+            margin-left: 1rem;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FortKnife apresenta: 1º Campeonato de Facada</h1>
+    </header>
+    <nav>
+        <a href="#image">Armaria</a>
+        <a href="#text">HAHAHAHA</a>
+        <a href="#participants">Participantes</a>
+    </nav>
+    <div class="container">
+        <section id="image">
+            <img src="knives.jpeg" alt="Placeholder Image">
+        </section>
+        <section id="text">
+            <p class="shining-text">ESCOLHA SEU GUERREIRO E APOSTE!</p>
+        </section>
+        <section id="participants" class="participant-list">
+            <div class="participant" onclick="toggleDescription('description1')">
+                <input type="radio" name="bet" onchange="toggleBetInput('bet1', 'Winnings1')"> Pdr
+                <input type="number" id="bet1" class="bet-input" placeholder="Digite sua aposta" oninput="calculateWinnings(this, 2.5, 'Winnings1')">
+                <span class="odds">Odds: 2.5</span>
+                <span id="Winnings1" class="roi"></span>
+            </div>
+            <div id="description1" class="participant-description">
+                Com habilidades manuais e prática de cortar peixes, traz sua faca pesada para o torneio.
+            </div>
+            <div class="participant" onclick="toggleDescription('description2')">
+                <input type="radio" name="bet" onchange="toggleBetInput('bet2', 'Winnings2')"> André
+                <input type="number" id="bet2" class="bet-input" placeholder="Digite sua aposta" oninput="calculateWinnings(this, 3.0, 'Winnings2')">
+                <span class="odds">Odds: 3.0</span>
+                <span id="Winnings2" class="roi"></span>
+            </div>
+            <div id="description2" class="participant-description">
+                Com suas habilidades de esquiva, é um lutador eficaz, acerta os mais inesperados locais em seus oponentes.
+            </div>
+            <div class="participant" onclick="toggleDescription('description3')">
+                <input type="radio" name="bet" onchange="toggleBetInput('bet3', 'Winnings3')"> Altai
+                <input type="number" id="bet3" class="bet-input" placeholder="Digite sua aposta" oninput="calculateWinnings(this, 1.01, 'Winnings3')">
+                <span class="odds">Odds: 1.01</span>
+                <span id="Winnings3" class="roi"></span>
+            </div>
+            <div id="description3" class="participant-description">
+                Com sua vasta experiência em forjas, trabalha para um clã de espadachins, participará do torneio com uma faca herdada diretamente do clã para o qual presta serviços de forjador.
+            </div>
+            <div class="participant" onclick="toggleDescription('description4')">
+                <input type="radio" name="bet" onchange="toggleBetInput('bet4','Winnings4')"> Netinho
+                <input type="number" id="bet4" class="bet-input" placeholder="Digite sua aposta" oninput="calculateWinnings(this, 3.5, 'Winnings4')">
+                <span class="odds">Odds: 3.5</span>
+                <span id="Winnings4" class="roi"></span>
+            </div>
+            <div id="description4" class="participant-description">
+                Com suas proporções físicas unidimensionais, é um oponente altamente esguio e difícil de ser neutralizado.
+            </div>
+        </section>
+    </div>
+    <script>
+        function toggleDescription(id) {
+            const description = document.getElementById(id);
+            if (description.style.display === 'block') {
+                description.style.display = 'none';
+            } else {
+                description.style.display = 'block';
+            }
+        }
+        function toggleBetInput(inputId, roiId) {
+            const inputs = document.querySelectorAll('.bet-input');
+            const rois = document.querySelectorAll('.roi');
+            inputs.forEach(input => {
+                if (input.id === inputId) {
+                    input.style.display = 'inline';
+                } else {
+                    input.style.display = 'none';
+                    input.value = '';
+                }
+            });
+            rois.forEach(roi => {
+                if (roi.id === roiId) {
+                    roi.style.display = 'inline';
+                } else {
+                    roi.style.display = 'none';
+                    roi.value = '';
+                }
+            });
+        }
+        function calculateWinnings(input, odds, winningId) {
+            const betValue = parseFloat(input.value);
+            const elem = document.getElementById(winningId);
+            if (!isNaN(betValue)) {
+                const winnings = betValue * odds;
+                elem.textContent=`Potencial retorno: R$${winnings.toFixed(2)}`;
+            } else {
+                elem.textContent = '';
+            }
+        }
+    </script>
+</body>
+</html>
