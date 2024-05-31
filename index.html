@@ -38,6 +38,7 @@
             color: transparent;
             animation: shine 2s linear infinite;
             display: inline-block;
+            text-align: center;
         }
         @keyframes shine {
             0% {
@@ -66,20 +67,31 @@
             padding: 1rem;
             background-color: #ffd700;
             border-radius: 5px;
+            position: relative;
+        }
+        .participant-description img {
+            width: 300px;
+            height: 300px;
+            display: block;
+            margin: 0 auto;
         }
         .bet-input {
             display: none;
             margin-left: 1rem;
         }
         img {
-            max-width: 100%;
-            height: auto;
+            width: 600px;
+            height: 600px;
             display: block;
             margin: 0 auto;
         }
         @media (max-width: 600px) {
             nav {
                 flex-direction: column;
+            }
+            img {
+                width: 100%;
+                height: auto;
             }
         }
     </style>
@@ -90,50 +102,55 @@
     </header>
     <nav>
         <a href="#image">Armaria</a>
-        <a href="#text">HAHAHAHA</a>
+        <a href="#text">Apostas</a>
         <a href="#participants">Participantes</a>
     </nav>
     <div class="container">
         <section id="image">
             <img src="knives.jpeg" alt="Placeholder Image">
         </section>
-        <section id="text">
+        <section id="text" style="text-align: center;">
             <p class="shining-text">ESCOLHA SEU GUERREIRO E APOSTE!</p>
         </section>
+        <ul id="bet-list"></ul>
         <section id="participants" class="participant-list">
             <div class="participant" onclick="toggleDescription('description1')">
-                <input type="radio" name="bet" onchange="toggleBetInput('bet1', 'Winnings1')"> Pdr
+                <input type="radio" name="bet" onchange="toggleBetInput('bet1', 'Winnings1', 'calcular_retorno1')"> Pdr
                 <input type="number" id="bet1" class="bet-input" placeholder="Digite sua aposta" oninput="calculateWinnings(this, 2.5, 'Winnings1')">
                 <span class="odds">Odds: 2.5</span>
-                <span id="Winnings1" class="roi"></span>
             </div>
+            <span id="Winnings1" class="roi"></span>
+            <button id="calcular_retorno1" class="crjk" style="display: none;" onclick="showAlert('bet1', 2.5, 'Pdr')">Registrar Aposta</button>
             <div id="description1" class="participant-description">
-                Com habilidades manuais e prática de cortar peixes, traz sua faca pesada para o torneio.
+                Com habilidades manuais e prática de cortar peixes, traz sua peixeira pesada para o torneio.
             </div>
             <div class="participant" onclick="toggleDescription('description2')">
-                <input type="radio" name="bet" onchange="toggleBetInput('bet2', 'Winnings2')"> André
+                <input type="radio" name="bet" onchange="toggleBetInput('bet2', 'Winnings2', 'calcular_retorno2')"> André
                 <input type="number" id="bet2" class="bet-input" placeholder="Digite sua aposta" oninput="calculateWinnings(this, 3.0, 'Winnings2')">
                 <span class="odds">Odds: 3.0</span>
-                <span id="Winnings2" class="roi"></span>
             </div>
+            <span id="Winnings2" class="roi"></span>
+            <button id="calcular_retorno2" class="crjk" style="display: none;" onclick="showAlert('bet2', 3.0, 'André')">Registrar Aposta</button>
             <div id="description2" class="participant-description">
                 Com suas habilidades de esquiva, é um lutador eficaz, acerta os mais inesperados locais em seus oponentes.
             </div>
             <div class="participant" onclick="toggleDescription('description3')">
-                <input type="radio" name="bet" onchange="toggleBetInput('bet3', 'Winnings3')"> Altai
+                <input type="radio" name="bet" onchange="toggleBetInput('bet3', 'Winnings3', 'calcular_retorno3')"> Altai
                 <input type="number" id="bet3" class="bet-input" placeholder="Digite sua aposta" oninput="calculateWinnings(this, 1.01, 'Winnings3')">
                 <span class="odds">Odds: 1.01</span>
-                <span id="Winnings3" class="roi"></span>
             </div>
+            <span id="Winnings3" class="roi"></span>
+            <button id="calcular_retorno3" class="crjk" style="display: none;" onclick="showAlert('bet3', 1.01, 'Altai')">Registrar Aposta</button>
             <div id="description3" class="participant-description">
                 Com sua vasta experiência em forjas, trabalha para um clã de espadachins, participará do torneio com uma faca herdada diretamente do clã para o qual presta serviços de forjador.
             </div>
             <div class="participant" onclick="toggleDescription('description4')">
-                <input type="radio" name="bet" onchange="toggleBetInput('bet4','Winnings4')"> Netinho
+                <input type="radio" name="bet" onchange="toggleBetInput('bet4','Winnings4', 'calcular_retorno4')"> Netinho
                 <input type="number" id="bet4" class="bet-input" placeholder="Digite sua aposta" oninput="calculateWinnings(this, 3.5, 'Winnings4')">
-                <span class="odds">Odds: 3.5</span>
-                <span id="Winnings4" class="roi"></span>
+                <span class="odds">Odds: 3.5</span>    
             </div>
+            <span id="Winnings4" class="roi"></span>
+            <button id="calcular_retorno4" class="crjk" style="display: none;" onclick="showAlert('bet4', 3.5, 'Netinho')">Registrar Aposta</button>
             <div id="description4" class="participant-description">
                 Com suas proporções físicas unidimensionais, é um oponente altamente esguio e difícil de ser neutralizado.
             </div>
@@ -148,9 +165,10 @@
                 description.style.display = 'block';
             }
         }
-        function toggleBetInput(inputId, roiId) {
+        function toggleBetInput(inputId, roiId, calcular_retornoId) {
             const inputs = document.querySelectorAll('.bet-input');
             const rois = document.querySelectorAll('.roi');
+            const creturn = document.querySelectorAll('.crjk');
             inputs.forEach(input => {
                 if (input.id === inputId) {
                     input.style.display = 'inline';
@@ -167,6 +185,14 @@
                     roi.value = '';
                 }
             });
+            creturn.forEach(crt => {
+                if (crt.id === calcular_retornoId) {
+                    crt.style.display = 'inline';
+                } else {
+                    crt.style.display = 'none';
+                    crt.value = '';
+                }
+            });
         }
         function calculateWinnings(input, odds, winningId) {
             const betValue = parseFloat(input.value);
@@ -177,6 +203,23 @@
             } else {
                 elem.textContent = '';
             }
+        }
+        function showAlert(inputId, odds, participant) {
+            const input = document.getElementById(inputId);
+            const betValue = parseFloat(input.value);
+            if (!isNaN(betValue)) {
+                const winnings = betValue * odds;
+                alert(`Aposta em ${participant}.\nValor da aposta: R$${betValue.toFixed(2)}.\nPotencial retorno: R$${winnings.toFixed(2)}`);
+                addBetToList(winnings, participant);
+            } else {
+                alert('Por favor, insira um valor de aposta válido.');
+            }
+        }
+        function addBetToList(investiment, participant) {
+            const betList = document.getElementById('bet-list');
+            const listItem = document.createElement('li');
+            listItem.textContent = `Aposta registrada. Retorno possível de R$${investiment.toFixed(2)} em ${participant}`;
+            betList.appendChild(listItem);
         }
     </script>
 </body>
